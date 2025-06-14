@@ -18,7 +18,7 @@ st.set_page_config(
 )
 
 # 標題和說明
-st.title("🚲 YouBike2.0台大校園站點分析")
+st.title("🚲 YouBike2.0台大校園站點分析(202502-202505)")
 st.markdown("---")
 
 
