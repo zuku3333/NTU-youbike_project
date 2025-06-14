@@ -55,19 +55,6 @@ def create_map_visualization(df, filter_by='available_rent_bikes', min_value=0):
         )
 
         # 添加圖例
-        legend_html = '''
-        <div style="position: fixed; 
-                    top: 10px; right: 10px; width: 200px; height: 150px; 
-                    background-color: white; border:2px solid grey; z-index:9999; 
-                    font-size:14px; padding: 10px;">
-        <h4>站點狀態圖例</h4>
-        <div><i style="color:green">●</i> 充足/良好</div>
-        <div><i style="color:orange">●</i> 中等/普通</div>
-        <div><i style="color:red">●</i> 不足/需注意</div>
-        </div>
-        '''
-        m.get_root().html.add_child(folium.Element(legend_html))
-
         # 加入 Marker 群集功能
         marker_cluster = MarkerCluster().add_to(m)
 
