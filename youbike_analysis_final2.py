@@ -28,7 +28,7 @@ def load_and_process_data():
     """載入並處理YouBike資料"""
     try:
         # 讀取資料
-        df = pd.read_csv('youbike_ntu_stations_202502_05.csv')
+        df = pd.read_csv('youbike_ntu_stations_202502_05.csv.gz', compression='gzip')
 
         # 基本資料處理
         df['datetime'] = pd.to_datetime(df['infoTime'])
