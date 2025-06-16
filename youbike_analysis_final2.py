@@ -166,16 +166,9 @@ def plot_usage_rate(station_stats):
                     (station_stats['usage_rate'] <= max_val)
                 ].copy()
 
-            if group_name in selected_groups:
+            if group_name in selected_groups:  # 只處理選中的分組
                 group_data['group'] = group_name
-                group_data['opacity'] = 1.0
-                group_data['color'] = color_map[group_name]
-            else:
-                group_data['group'] = group_name
-                group_data['opacity'] = 0.3
-                group_data['color'] = 'lightgray'
-
-            filtered_data = pd.concat([filtered_data, group_data])
+                filtered_data = pd.concat([filtered_data, group_data])
 
         # 排序資料
         filtered_data = filtered_data.sort_values('usage_rate', ascending=True)
@@ -197,7 +190,7 @@ def plot_usage_rate(station_stats):
             },
             title="站點使用率分佈",
             labels={'short_name': '站點名稱', 'usage_rate': '使用率'},  # 標籤對調
-            color_discrete_map=color_map
+            color_discrete_map=selected_color_map
         )
 
         # 計算合適的圖表寬度（每個站點預留更多空間）
@@ -205,7 +198,9 @@ def plot_usage_rate(station_stats):
 
         # 排序資料並重新設定索引
         filtered_data = filtered_data.sort_values('usage_rate', ascending=True).reset_index(drop=True)
-
+        selected_color_map = {group_name: color_map[group_name]
+                              for group_name in selected_groups
+                              if group_name in color_map}
         # 創建散布圖 - 橫軸和縱軸對調，並添加可拖曳功能
         fig = px.scatter(
             filtered_data,
@@ -328,14 +323,9 @@ def plot_circulation_rate(station_stats):
                     (station_stats['circulation_rate'] <= max_val)
                 ].copy()
 
-            if group_name in selected_groups:
+            if group_name in selected_groups:  # 只加入選中的分組
                 group_data['group'] = group_name
-                group_data['color'] = color_map[group_name]
-            else:
-                group_data['group'] = group_name
-                group_data['color'] = 'lightgray'
-
-            filtered_data = pd.concat([filtered_data, group_data])
+                filtered_data = pd.concat([filtered_data, group_data])
 
         # 改為散布圖
         fig = px.scatter(
