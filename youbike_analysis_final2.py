@@ -18,7 +18,7 @@ st.set_page_config(
 )
 
 # 標題和說明
-st.title("🚲 YouBike2.0台大校園站點分析(202502-202505)")
+st.title("🚲 YouBike2.0台大校園站點分析")
 st.markdown("---")
 
 
@@ -28,7 +28,7 @@ def load_and_process_data():
     """載入並處理YouBike資料"""
     try:
         # 讀取資料
-        df = pd.read_csv('youbike_ntu_stations_202502_05.csv.gz', compression='gzip')
+        df = pd.read_csv('youbike_ntu_stations_202502_05.csv')
 
         # 基本資料處理
         df['datetime'] = pd.to_datetime(df['infoTime'])
@@ -190,7 +190,7 @@ def plot_usage_rate(station_stats):
             },
             title="站點使用率分佈",
             labels={'short_name': '站點名稱', 'usage_rate': '使用率'},  # 標籤對調
-            color_discrete_map=selected_color_map
+            color_discrete_map=color_map
         )
 
         # 計算合適的圖表寬度（每個站點預留更多空間）
@@ -198,6 +198,7 @@ def plot_usage_rate(station_stats):
 
         # 排序資料並重新設定索引
         filtered_data = filtered_data.sort_values('usage_rate', ascending=True).reset_index(drop=True)
+
         selected_color_map = {group_name: color_map[group_name]
                               for group_name in selected_groups
                               if group_name in color_map}
@@ -216,7 +217,7 @@ def plot_usage_rate(station_stats):
             },
             title="站點使用率分佈",
             labels={'x': '站點名稱', 'usage_rate': '使用率'},
-            color_discrete_map=color_map
+            color_discrete_map=selected_color_map  # 使用原始的 color_map
         )
 
         # 計算合適的圖表寬度（縮小間距）
@@ -403,12 +404,9 @@ def plot_rent_ease(station_stats):
                     (station_stats['rent_ease'] <= max_val)
                 ].copy()
 
-            if group_name in selected_groups:
+            if group_name in selected_groups:  # 只加入選中的分組
                 group_data['group'] = group_name
-            else:
-                group_data['group'] = group_name
-
-            filtered_data = pd.concat([filtered_data, group_data])
+                filtered_data = pd.concat([filtered_data, group_data])
 
         fig = px.scatter(
             filtered_data,
@@ -477,12 +475,9 @@ def plot_return_ease(station_stats):
                     (station_stats['return_ease'] <= max_val)
                 ].copy()
 
-            if group_name in selected_groups:
+            if group_name in selected_groups:  # 只加入選中的分組
                 group_data['group'] = group_name
-            else:
-                group_data['group'] = group_name
-
-            filtered_data = pd.concat([filtered_data, group_data])
+                filtered_data = pd.concat([filtered_data, group_data])
 
         fig = px.scatter(
             filtered_data,
@@ -545,12 +540,9 @@ def plot_stability(station_stats):
                     (station_stats['stability_index'] <= max_val)
                 ].copy()
 
-            if group_name in selected_groups:
+            if group_name in selected_groups:  # 只加入選中的分組
                 group_data['group'] = group_name
-            else:
-                group_data['group'] = group_name
-
-            filtered_data = pd.concat([filtered_data, group_data])
+                filtered_data = pd.concat([filtered_data, group_data])
 
         fig = px.scatter(
             filtered_data,
@@ -668,12 +660,9 @@ def plot_capacity_circulation(station_stats):
                     (station_stats['total_capacity'] <= max_val)
                 ].copy()
 
-            if group_name in selected_groups:
+            if group_name in selected_groups:  # 只加入選中的分組
                 group_data['group'] = group_name
-            else:
-                group_data['group'] = group_name
-
-            filtered_data = pd.concat([filtered_data, group_data])
+                filtered_data = pd.concat([filtered_data, group_data])
 
         fig = px.scatter(
             filtered_data,
@@ -743,12 +732,9 @@ def plot_efficiency(station_stats):
                     (station_stats['efficiency'] <= max_val)
                 ].copy()
 
-            if group_name in selected_groups:
+            if group_name in selected_groups:  # 只加入選中的分組
                 group_data['group'] = group_name
-            else:
-                group_data['group'] = group_name
-
-            filtered_data = pd.concat([filtered_data, group_data])
+                filtered_data = pd.concat([filtered_data, group_data])
 
         # 改為散布圖
         fig = px.scatter(
